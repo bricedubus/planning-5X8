@@ -2,13 +2,14 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <title>Planning 5 Equipes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#34495e">
     
-    <title>Planning 5 Equipes</title>
+    <meta name="theme-color" content="#34495e">
     
     <style>
         :root {
@@ -92,11 +93,9 @@
             justify-content: center; 
             border-radius: 12px; 
             font-size: 1em; 
-            font-weight: bold; 
-            transition: transform 0.1s;
+            font-weight: bold;
         }
 
-        /* Styles des Postes */
         .m { background: var(--matin); color: #000; }
         .a { background: var(--aprem); color: #fff; }
         .n { background: var(--nuit); color: #fff; }
@@ -152,19 +151,14 @@
 </div>
 
 <script>
-    /**
-     * CYCLE CORRIGÉ (35 JOURS)
-     * Reprise le vendredi matin après la nuit du dimanche (4 repos).
-     */
     const cycle = [
-        "m","m","a","a","n","r","r","r","r", // Semaine 1
-        "m","m","a","n","n","r","r","r","r", // Semaine 2
-        "m","a","a","n","n","r","r","r",      // Semaine 3
-        "m","m","a","a","n","n","r","r","r", // Semaine 4
-        "m","m","a","n","n"                  // Fin du cycle (Total 35)
+        "m","m","a","a","n","r","r","r","r", 
+        "m","m","a","n","n","r","r","r","r", 
+        "m","a","a","n","n","r","r","r",      
+        "m","m","a","a","n","n","r","r","r", 
+        "m","m","a","n","n"                  
     ];
     
-    // Référence fixée : Aujourd'hui Dimanche 15 Février 2026
     const refDate = new Date(2026, 1, 15); 
     let dateVue = new Date(); 
 
@@ -178,23 +172,18 @@
         const eq = parseInt(document.getElementById('eq').value);
         cal.innerHTML = "";
         
-        // Affichage du mois
         document.getElementById('moisAffichage').innerText = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(dateVue);
 
-        // En-têtes des jours
         ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"].forEach(j => {
             cal.innerHTML += `<div class="header">${j}</div>`;
         });
 
         const y = dateVue.getFullYear();
         const m = dateVue.getMonth();
-        
-        // Calcul du premier jour (ajustement pour lundi = 0)
         const premierJourMois = new Date(y, m, 1).getDay();
         const decalage = (premierJourMois === 0) ? 6 : premierJourMois - 1;
         const totalJours = new Date(y, m + 1, 0).getDate();
 
-        // Cases vides
         for(let i=0; i<decalage; i++) cal.innerHTML += `<div></div>`;
 
         const aujourdhui = new Date();
@@ -203,16 +192,15 @@
             const cible = new Date(y, m, d);
             const diffJours = Math.round((cible - refDate) / 86400000);
             
-            // Positions de départ au 15/02/2026 pour caler chaque équipe
             let indexStart;
-            if (eq === 0) indexStart = 4;  // Équipe 1 : Nuit aujourd'hui
+            if (eq === 0) indexStart = 4;  
             if (eq === 1) indexStart = 11; 
-            if (eq === 2) indexStart = 34; // Équipe 3 : Repos aujourd'hui, Matin demain
+            if (eq === 2) indexStart = 34; 
             if (eq === 3) indexStart = 18; 
             if (eq === 4) indexStart = 25; 
             
             let idx = (diffJours + indexStart) % 35;
-            while(idx < 0) idx += 35; // Sécurité pour les dates passées
+            while(idx < 0) idx += 35;
             
             const poste = cycle[idx];
             const isToday = cible.toDateString() === aujourdhui.toDateString() ? 'today' : '';
@@ -224,10 +212,7 @@
                 </div>`;
         }
     }
-    
-    // Lancement initial
     maj();
 </script>
-
 </body>
 </html>
