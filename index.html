@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,44 +13,120 @@
     <style>
         :root {
             --matin: #FFD700; --aprem: #FF8C00; --nuit: #4169E1; --repos: #e0e0e0;
+            --dark-blue: #34495e;
         }
+        
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
             background: #f0f2f5; 
             margin: 0; 
-            padding: env(safe-area-inset-top) 15px 15px 15px; /* Gère les encoches d'écran */
-            user-select: none; /* Évite les sélections de texte accidentelles sur mobile */
+            padding: env(safe-area-inset-top) 15px 20px 15px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
-        .container { max-width: 450px; margin: auto; background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 10px; }
-        
-        .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .btn-nav { background: #34495e; color: white; border: none; padding: 12px 18px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1.1em; }
-        #moisAffichage { font-weight: bold; font-size: 1.2em; text-transform: capitalize; color: #2c3e50; }
 
-        select { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 12px; border: 2px solid #eee; font-size: 1em; background-color: #f8f9fa; -webkit-appearance: none; }
+        .container { 
+            max-width: 450px; 
+            margin: 10px auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 25px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+        }
         
+        h2 { text-align: center; color: var(--dark-blue); margin-top: 0; margin-bottom: 15px; font-size: 1.4em; }
+
+        select { 
+            width: 100%; 
+            padding: 14px; 
+            margin-bottom: 20px; 
+            border-radius: 12px; 
+            border: 2px solid #f0f0f0; 
+            font-size: 1em; 
+            background-color: #f8f9fa;
+            color: var(--dark-blue);
+            font-weight: 600;
+        }
+
+        .nav-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 15px; 
+        }
+        
+        .btn-nav { 
+            background: var(--dark-blue); 
+            color: white; 
+            border: none; 
+            padding: 12px 20px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 1.1em;
+        }
+
+        #moisAffichage { 
+            font-weight: 800; 
+            font-size: 1.1em; 
+            text-transform: capitalize; 
+            color: var(--dark-blue); 
+        }
+
         .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
-        .header { font-size: 0.75em; font-weight: bold; color: #95a5a6; padding-bottom: 8px; text-transform: uppercase; text-align: center; }
-        .day { aspect-ratio: 1 / 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 10px; font-size: 0.95em; font-weight: bold; border: 1px solid #f9f9f9; }
         
+        .header { 
+            font-size: 0.7em; 
+            font-weight: bold; 
+            color: #bdc3c7; 
+            padding-bottom: 5px; 
+            text-transform: uppercase; 
+            text-align: center; 
+        }
+        
+        .day { 
+            aspect-ratio: 1 / 1; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 12px; 
+            font-size: 1em; 
+            font-weight: bold; 
+            transition: transform 0.1s;
+        }
+
+        /* Styles des Postes */
         .m { background: var(--matin); color: #000; }
         .a { background: var(--aprem); color: #fff; }
         .n { background: var(--nuit); color: #fff; }
         .r { background: var(--repos); color: #7f8c8d; }
         
-        .label { font-size: 0.65em; margin-top: 2px; }
-        .today { outline: 3px solid #34495e; outline-offset: -2px; }
+        .label { font-size: 0.6em; margin-top: 2px; font-weight: 800; }
+        .today { outline: 3px solid var(--dark-blue); outline-offset: -3px; }
 
-        .legend { display: flex; justify-content: space-between; margin-top: 25px; font-size: 0.8em; gap: 5px; }
-        .legend div { padding: 8px; border-radius: 8px; flex: 1; text-align: center; font-weight: bold; }
+        .legend { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-top: 25px; 
+            font-size: 0.75em; 
+            gap: 6px; 
+        }
+        
+        .legend div { 
+            padding: 8px 4px; 
+            border-radius: 8px; 
+            flex: 1; 
+            text-align: center; 
+            font-weight: bold; 
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 style="margin-top:0; text-align: center; color: #34495e;">Planning 5x8</h2>
+    <h2>Planning 5x8</h2>
     
-    <label style="font-size: 0.8em; color: #7f8c8d; margin-left: 5px;">Sélectionner l'équipe :</label>
     <select id="eq" onchange="maj()">
         <option value="0">Équipe 1</option>
         <option value="1">Équipe 2</option>
@@ -76,10 +152,19 @@
 </div>
 
 <script>
-    // Ton cycle de 35 jours
-    const cycle = ["m","m","a","a","n","r","r","r","r","m","m","a","n","n","r","r","r","r","r","m","a","a","n","n","r","r","r","m","m","a","a","n","n","r","r"];
+    /**
+     * CYCLE CORRIGÉ (35 JOURS)
+     * Reprise le vendredi matin après la nuit du dimanche (4 repos).
+     */
+    const cycle = [
+        "m","m","a","a","n","r","r","r","r", // Semaine 1
+        "m","m","a","n","n","r","r","r","r", // Semaine 2
+        "m","a","a","n","n","r","r","r",      // Semaine 3
+        "m","m","a","a","n","n","r","r","r", // Semaine 4
+        "m","m","a","n","n"                  // Fin du cycle (Total 35)
+    ];
     
-    // Référence calée sur ton équipe 3 (Repos le 15 fév, Matin le 16 fév 2026)
+    // Référence fixée : Aujourd'hui Dimanche 15 Février 2026
     const refDate = new Date(2026, 1, 15); 
     let dateVue = new Date(); 
 
@@ -93,34 +178,41 @@
         const eq = parseInt(document.getElementById('eq').value);
         cal.innerHTML = "";
         
+        // Affichage du mois
         document.getElementById('moisAffichage').innerText = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(dateVue);
 
-        ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"].forEach(j => cal.innerHTML += `<div class="header">${j}</div>`);
+        // En-têtes des jours
+        ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"].forEach(j => {
+            cal.innerHTML += `<div class="header">${j}</div>`;
+        });
 
         const y = dateVue.getFullYear();
         const m = dateVue.getMonth();
-        const premierJour = new Date(y, m, 1).getDay();
-        const decalage = (premierJour === 0) ? 6 : premierJour - 1;
+        
+        // Calcul du premier jour (ajustement pour lundi = 0)
+        const premierJourMois = new Date(y, m, 1).getDay();
+        const decalage = (premierJourMois === 0) ? 6 : premierJourMois - 1;
         const totalJours = new Date(y, m + 1, 0).getDate();
 
+        // Cases vides
         for(let i=0; i<decalage; i++) cal.innerHTML += `<div></div>`;
 
         const aujourdhui = new Date();
 
         for(let d=1; d<=totalJours; d++) {
             const cible = new Date(y, m, d);
-            const diff = Math.round((cible - refDate) / 86400000);
+            const diffJours = Math.round((cible - refDate) / 86400000);
             
+            // Positions de départ au 15/02/2026 pour caler chaque équipe
             let indexStart;
-            // Alignement des équipes
-            if (eq === 0) indexStart = 4;  
+            if (eq === 0) indexStart = 4;  // Équipe 1 : Nuit aujourd'hui
             if (eq === 1) indexStart = 11; 
-            if (eq === 2) indexStart = 34; 
+            if (eq === 2) indexStart = 34; // Équipe 3 : Repos aujourd'hui, Matin demain
             if (eq === 3) indexStart = 18; 
             if (eq === 4) indexStart = 25; 
             
-            let idx = (diff + indexStart) % 35;
-            while(idx < 0) idx += 35;
+            let idx = (diffJours + indexStart) % 35;
+            while(idx < 0) idx += 35; // Sécurité pour les dates passées
             
             const poste = cycle[idx];
             const isToday = cible.toDateString() === aujourdhui.toDateString() ? 'today' : '';
@@ -128,11 +220,12 @@
             cal.innerHTML += `
                 <div class="day ${poste} ${isToday}">
                     ${d}
-                    <span class="label">${poste.toUpperCase()}</span>
+                    <span class="label">${poste ? poste.toUpperCase() : ""}</span>
                 </div>`;
         }
     }
     
+    // Lancement initial
     maj();
 </script>
 
